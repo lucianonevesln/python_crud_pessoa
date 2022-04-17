@@ -18,34 +18,26 @@ app.config['MYSQL_DATABASE_HOST'] = config.DB_URL
 mysql.init_app(app)
 
 
-def consultar_pessoas2():
+def _select_sql(raw_sql)
     conn = mysql.connect()
     cursor = conn.cursor()
-    cursor.execute('select * from python_crud_pessoas.pessoas;')
-    autores = cursor.fetchall()
-    conn.commit()
-    return jsonify(autores)
+    cursor.execute(raw_sql)
+    result = cursor.fetchall()
+    # conn.commit()
     cursor.close()
     conn.close()
+    return result
+
+def consultar_pessoas2():
+    autores = _select_sql('select * from python_crud_pessoas.pessoas;')
+    return jsonify(autores)
 
 
 def consultar_contatos2():
-    conn = mysql.connect()
-    cursor = conn.cursor()
-    cursor.execute('select * from python_crud_pessoas.contatos;')
-    nomes = cursor.fetchall()
-    conn.commit()
+    nomes = _select_sql('select * from python_crud_pessoas.contatos;')
     return jsonify(nomes)
-    cursor.close()
-    conn.close()
 
 
 def consultar_pessoas_contatos2():
-    conn = mysql.connect()
-    cursor = conn.cursor()
-    cursor.execute('select p.nome, p.cpf, c.telefone, c.email from python_crud_pessoas.pessoas as p inner join python_crud_pessoas.contatos as c on c.id_pessoas = p.id;')
-    nomes = cursor.fetchall()
-    conn.commit()
+    nomes = _select_sql('select p.nome, p.cpf, c.telefone, c.email from python_crud_pessoas.pessoas as p inner join python_crud_pessoas.contatos as c on c.id_pessoas = p.id;')
     return jsonify(nomes)
-    cursor.close()
-    conn.close()
