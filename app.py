@@ -1,7 +1,7 @@
 import os
 from flask import Flask, request, render_template, jsonify
 
-from settings import DEBUG, HOST, PORT, STATIC_FOLDER, TEMPLATES_FOLDER, APP_FOLDER
+from settings import APP_FOLDER
 from cadastrar import cadastrar_pessoas2, cadastrar_contatos2
 from consultar import consultar_pessoas2, consultar_contatos2, consultar_pessoas_contatos2
 from atualizar import atualizar_pessoas2, atualizar_contatos_telefone2, atualizar_contatos_email2
@@ -11,19 +11,12 @@ from db import mysql
 
 app = Flask(__name__)
 app.config.from_pyfile(os.path.join(APP_FOLDER, "settings.py"))
-# app.jinja_env.auto_reload = True
-
-# @app.before_request
-# def before_request():
-#     app.jinja_env.cache = {}
-
-
 mysql.init_app(app)
 
 @app.route('/index', methods=['GET'])
 @app.route('/', methods=['GET'])
 def index():
-    return render_template('base.html')
+    return render_template('main.html')
 
 
 @app.route('/pessoas', methods=['GET'])
